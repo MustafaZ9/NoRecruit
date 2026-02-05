@@ -28,15 +28,23 @@
             padding: 20px;
         }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--accent-color);
-            text-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
-            margin-top: 40px;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
+    margin-top: 40px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    
+    /* ADD THIS LINE: */
+    font-size: clamp(1.2rem, 5vw, 2.5rem);
+    /* This ensures the text is never smaller than 1.2rem, 
+       scales with width (5vw), and never larger than 2.5rem */
+    
+    /* OPTIONAL: Force it to stay on one line */
+    white-space: nowrap; 
+}
         
         h1:hover { transform: scale(1.05); }
 
