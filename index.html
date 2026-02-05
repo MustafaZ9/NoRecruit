@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alliance Blacklist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --accent-color: #e53935;
+            --reason-color: #ffd700;
+            --border-color: #333;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
+            margin-top: 40px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        h1:hover { transform: scale(1.05); }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .status-indicator {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus { border-color: var(--accent-color); }
+
+        #results-area {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .result-card {
+            background-color: rgba(229, 57, 53, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        .player-info { display: flex; flex-direction: column; }
+        .player-name { font-weight: bold; font-size: 1.1em; color: #ff8a80; }
+        .player-id { font-size: 0.9em; color: #aaa; margin-top: 4px; }
+        
+        .player-reason {
+            font-size: 0.85em;
+            color: var(--reason-color);
+            margin-top: 8px;
+            font-style: italic;
+            border-left: 2px solid var(--reason-color);
+            padding-left: 8px;
+        }
+
+        .ban-badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-family: 'Orbitron', sans-serif;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .add-btn {
+            margin-top: 30px;
+            background-color: #333;
+            color: #aaa;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            transition: 0.3s;
+        }
+        .add-btn:hover { background-color: #444; color: white; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .no-match {
+            text-align: center;
+            color: #4caf50;
+            padding: 20px;
+            border: 1px dashed #4caf50;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .empty-state { text-align: center; color: #666; margin-top: 30px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1 onclick="location.reload()" title="Click to Reset">🚫 NO RECRUIT LIST</h1>
+    <div id="loading-text" class="status-indicator">Connecting to database...</div>
+
+    <div class="container">
+        <input type="text" id="searchInput" placeholder="Type ID or Name to search..." autocomplete="off" disabled>
+        <div id="results-area"></div>
+    </div>
+
+    <a href="https://forms.gle/Z8pjVY7XxhCYkJkv5" target="_blank" class="add-btn">+ Add Player to Blacklist</a>
+
+    <script>
+        // ============================================
+        // 1. CONFIGURATION
+        // ============================================
+        
+        // I checked this link, it is valid and working!
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMW9t3vfH3ganvTFRmX2WcUoaR7UAIc7oW13TmvyCt4DsOZ-pf34mIAE7BWKWRa2wsxTJ0CgyYQXz6/pub?gid=679693607&single=true&output=csv";
+
+        // ============================================
+        // 2. LOGIC
+        // ============================================
+
+        let blockedPlayers = [];
+        const searchInput = document.getElementById('searchInput');
+        const resultsArea = document.getElementById('results-area');
+        const loadingText = document.getElementById('loading-text');
+
+        // Fetch data when page loads
+        fetch(SHEET_CSV_URL)
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.text();
+            })
+            .then(csvText => {
+                blockedPlayers = parseCSV(csvText);
+                loadingText.innerText = `Database Loaded: ${blockedPlayers.length} Records`;
+                loadingText.style.color = "#4caf50";
+                searchInput.disabled = false;
+                searchInput.placeholder = "Type ID or Name to search...";
+            })
+            .catch(error => {
+                console.error('Error loading sheet:', error);
+                // If this error appears, it is usually because the file is running locally (file://)
+                loadingText.innerText = "Connection Failed.";
+                loadingText.style.color = "red";
+            });
+
+        // Improved CSV Parser (Handles names with spaces correctly)
+        function parseCSV(text) {
+            const lines = text.split('\n');
+            const result = [];
+            
+            // Loop through lines, skipping the header (i=1)
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                // This REGEX splits by comma, but ignores commas inside quotes
+                // It is much safer than my previous version
+                const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                
+                // Remove quotes from the data if they exist
+                const cleanCols = parts.map(col => col.replace(/^"|"$/g, '').trim());
+
+                // We expect at least ID and Name (cols 1 and 2)
+                if (cleanCols.length >= 3) {
+                    result.push({
+                        id: cleanCols[1] || "Unknown", // Column B
+                        name: cleanCols[2] || "Unknown", // Column C
+                        reason: cleanCols[3] || ""       // Column D
+                    });
+                }
+            }
+            return result;
+        }
+
+        // Search Logic
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            resultsArea.innerHTML = '';
+
+            if (query === '') {
+                resultsArea.innerHTML = '<div class="empty-state">Enter data to check database...</div>';
+                return;
+            }
+
+            const matches = blockedPlayers.filter(player => 
+                player.id.includes(query) || 
+                player.name.toLowerCase().includes(query)
+            );
+
+            if (matches.length > 0) {
+                matches.forEach(player => {
+                    const card = document.createElement('div');
+                    card.className = 'result-card';
+                    
+                    const reasonHtml = player.reason 
+                        ? `<div class="player-reason">Reason: ${player.reason}</div>` 
+                        : '';
+
+                    card.innerHTML = `
+                        <div class="player-info">
+                            <span class="player-name">${player.name}</span>
+                            <span class="player-id">ID: ${player.id}</span>
+                            ${reasonHtml}
+                        </div>
+                        <span class="ban-badge">NO RECRUIT</span>
+                    `;
+                    resultsArea.appendChild(card);
+                });
+            } else {
+                resultsArea.innerHTML = `
+                    <div class="no-match">
+                        ✅ No match found in database.
+                    </div>
+                `;
+            }
+        });
+    </script>
+
+</body>
+</html>
