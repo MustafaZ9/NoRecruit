@@ -477,7 +477,7 @@
             }
         }
 
-        addPlayerForm.onsubmit = async function(e) {
+       addPlayerForm.onsubmit = async function(e) {
             e.preventDefault();
             
             const playerName = document.getElementById('playerName').value.trim();
@@ -491,68 +491,54 @@
                 return;
             }
 
-            if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE" || !APPS_SCRIPT_URL) {
-                errorMessage.textContent = "❌ Apps Script URL not configured!";
-                errorMessage.style.display = "block";
-                successMessage.style.display = "none";
-                return;
-            }
-
+            // UI Updates: Disable button to prevent double-clicks
             submitBtn.disabled = true;
-            submitBtn.textContent = "Adding...";
+            submitBtn.textContent = "Sending...";
             errorMessage.style.display = "none";
             successMessage.style.display = "none";
 
             try {
-                // SOLUTION: Use URLSearchParams (Form Data) to avoid CORS issues
                 const formData = new URLSearchParams();
                 formData.append("Player Name", playerName);
                 formData.append("Player ID", playerId);
                 formData.append("Reason", playerReason);
 
-                const response = await fetch(APPS_SCRIPT_URL, {
+                // -------------------------------------------------------
+                // THE FIX: mode: 'no-cors'
+                // -------------------------------------------------------
+                await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
+                    mode: 'no-cors', // <--- IMPORTANT: This bypasses the CORS error
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
                     },
                     body: formData.toString()
                 });
 
-                const responseText = await response.text();
+                // With 'no-cors', we get an "opaque" response. We cannot check result.status
+                // or read the text. We assume it was sent successfully.
                 
-                let result;
-                try {
-                    result = JSON.parse(responseText);
-                } catch (parseError) {
-                    // console.error('Could not parse response:', parseError);
-                    result = { status: 'success' };
-                }
+                successMessage.innerHTML = "✅ Request sent! Updating database...";
+                successMessage.style.display = "block";
+                errorMessage.style.display = "none";
+                addPlayerForm.reset();
                 
-                if (result.status === 'error') {
-                    errorMessage.textContent = "❌ " + result.message;
-                    errorMessage.style.display = "block";
-                    successMessage.style.display = "none";
-                } else {
-                    successMessage.textContent = "✅ Player added successfully!";
-                    successMessage.style.display = "block";
-                    errorMessage.style.display = "none";
-                    addPlayerForm.reset();
-                    
-                    setTimeout(() => {
-                        loadData();
-                        closeModal();
-                    }, 2000);
-                }
+                // Wait 2 seconds for Google Sheets to update, then reload the list
+                setTimeout(() => {
+                    loadData();
+                    closeModal();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Add to the list";
+                }, 2500);
 
             } catch (error) {
                 console.error('Error adding player:', error);
-                // If even this fails, the script is 100% strictly JSON-only and incompatible with web browsers.
-                errorMessage.textContent = "❌ Connection failed. The webhook might be blocking browser requests.";
+                errorMessage.textContent = "❌ Network error. Check your internet connection.";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
-            } finally {
+                
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Add to No Recruit";
+                submitBtn.textContent = "Add to the list";
             }
         }
     </script>
