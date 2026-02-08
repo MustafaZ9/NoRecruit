@@ -160,14 +160,15 @@
 
         .modal-content {
             background-color: var(--card-bg);
-            margin: 5% auto;
+            /* CHANGED: Reduced top margin from 5% to 2% to move it higher */
+            margin: 2% auto;
             padding: 30px;
             border: 1px solid var(--accent-color);
             border-radius: 10px;
             width: 90%;
             max-width: 500px;
             box-shadow: 0 0 20px rgba(229, 57, 53, 0.3);
-            max-height: 85vh;
+            max-height: 90vh;
             overflow-y: auto;
         }
 
@@ -296,7 +297,6 @@
 
     <button class="add-btn" id="openModalBtn">+ Add Player to Blacklist</button>
 
-    <!-- Modal -->
     <div id="addPlayerModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -304,8 +304,8 @@
             
             <form id="addPlayerForm">
                 <div class="form-group">
-                    <label for="playerName">Player Name *</label>
-                    <input type="text" id="playerName" required>
+                    <label for="playerName">Player Name</label>
+                    <input type="text" id="playerName">
                 </div>
                 
                 <div class="form-group">
@@ -340,9 +340,8 @@
         
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMW9t3vfH3ganvTFRmX2WcUoaR7UAIc7oW13TmvyCt4DsOZ-pf34mIAE7BWKWRa2wsxTJ0CgyYQXz6/pub?gid=679693607&single=true&output=csv";
         
-        // YOU NEED TO REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-        // See instructions below on how to create this
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCPTAgpNLmowKZnbI7Z0zsxgNMHZqzFilUemI9iB3fPc7ZIMRIvUejMDSdwAq9XBNQQ/exec";
+        // CHANGED: Updated with the new URL you provided
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUe5q2XUyii6o4M-YxK2AiRvnFP0GmLByNWkbJmt_7qmqs2F6AxYKgn7t9JrcmGwKrLQ/exec?gid=679693607";
 
         // ============================================
         // 2. LOGIC
@@ -400,7 +399,7 @@
 
                 // Your columns: Timestamp | Player ID | Player Name | Reason
                 // Column indices:    0     |     1     |      2      |   3
-                if (cleanCols.length >= 3) {
+                if (cleanCols.length >= 2) { // Changed check to >= 2 since name/reason are optional
                     result.push({
                         id: cleanCols[1] || "Unknown",      // Column B - Player ID
                         name: cleanCols[2] || "Unknown",    // Column C - Player Name
@@ -491,8 +490,9 @@
             const playerId = document.getElementById('playerId').value.trim();
             const playerReason = document.getElementById('playerReason').value.trim();
 
-            if (!playerName || !playerId) {
-                errorMessage.textContent = "❌ Name and ID are required!";
+            // CHANGED: Validation now only checks for Player ID
+            if (!playerId) {
+                errorMessage.textContent = "❌ Player ID is required!";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
                 return;
@@ -500,7 +500,7 @@
 
             // Check if API URL is configured
             if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE" || !APPS_SCRIPT_URL) {
-                errorMessage.textContent = "❌ Apps Script URL not configured! Please check setup guide.";
+                errorMessage.textContent = "❌ Apps Script URL not configured!";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
                 return;
@@ -513,12 +513,7 @@
             successMessage.style.display = "none";
 
             try {
-                // Create URLSearchParams for the POST request
-                const formData = new URLSearchParams();
-                formData.append('name', playerName);
-                formData.append('id', playerId);
-                formData.append('reason', playerReason);
-
+                // Send data (Name and Reason will be empty string if not filled)
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -528,32 +523,27 @@
                     })
                 });
 
-                // Read response as text first
                 const responseText = await response.text();
-                console.log('Server response:', responseText);
                 
                 let result;
                 try {
                     result = JSON.parse(responseText);
                 } catch (parseError) {
                     console.error('Could not parse response:', parseError);
-                    // If we can't parse, assume success (Google Apps Script sometimes returns HTML)
+                    // If we can't parse JSON, assume success (common with some redirection behavior)
                     result = { status: 'success' };
                 }
                 
                 if (result.status === 'error') {
-                    // Show the specific error message from the server
                     errorMessage.textContent = "❌ " + result.message;
                     errorMessage.style.display = "block";
                     successMessage.style.display = "none";
                 } else {
-                    // Success!
                     successMessage.textContent = "✅ Player added successfully!";
                     successMessage.style.display = "block";
                     errorMessage.style.display = "none";
                     addPlayerForm.reset();
                     
-                    // Reload data after 2 seconds
                     setTimeout(() => {
                         loadData();
                         closeModal();
@@ -562,7 +552,7 @@
 
             } catch (error) {
                 console.error('Error adding player:', error);
-                errorMessage.textContent = "❌ Connection failed. Check your Apps Script URL or try again.";
+                errorMessage.textContent = "❌ Connection failed. Please try again.";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
             } finally {
