@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alliance Blacklist</title>
+    <title>LoD NoRecruit</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
@@ -160,7 +160,7 @@
 
         .modal-content {
             background-color: var(--card-bg);
-            /* CHANGED: Reduced top margin from 5% to 2% to move it higher */
+            /* MOVED HIGHER: 2% margin-top */
             margin: 2% auto;
             padding: 30px;
             border: 1px solid var(--accent-color);
@@ -295,12 +295,12 @@
         <div id="results-area"></div>
     </div>
 
-    <button class="add-btn" id="openModalBtn">+ Add Player to Blacklist</button>
+    <button class="add-btn" id="openModalBtn">+ Add Player to NoRecruit</button>
 
     <div id="addPlayerModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div class="modal-header">Add Player to Blacklist</div>
+            <div class="modal-header">Add Player</div>
             
             <form id="addPlayerForm">
                 <div class="form-group">
@@ -315,12 +315,12 @@
                 
                 <div class="form-group">
                     <label for="playerReason">Reason (Optional)</label>
-                    <textarea id="playerReason" placeholder="Why is this player being blacklisted?"></textarea>
+                    <textarea id="playerReason" placeholder="Why is this playerin no recruit?"></textarea>
                 </div>
 
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn btn-submit" id="submitBtn">Add to Blacklist</button>
+                    <button type="submit" class="btn btn-submit" id="submitBtn">Add to NoRecruit</button>
                 </div>
             </form>
 
@@ -340,7 +340,6 @@
         
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMW9t3vfH3ganvTFRmX2WcUoaR7UAIc7oW13TmvyCt4DsOZ-pf34mIAE7BWKWRa2wsxTJ0CgyYQXz6/pub?gid=679693607&single=true&output=csv";
         
-        // CHANGED: Updated with the new URL you provided
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUe5q2XUyii6o4M-YxK2AiRvnFP0GmLByNWkbJmt_7qmqs2F6AxYKgn7t9JrcmGwKrLQ/exec?gid=679693607";
 
         // ============================================
@@ -397,9 +396,7 @@
                 const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 const cleanCols = parts.map(col => col.replace(/^"|"$/g, '').trim());
 
-                // Your columns: Timestamp | Player ID | Player Name | Reason
-                // Column indices:    0     |     1     |      2      |   3
-                if (cleanCols.length >= 2) { // Changed check to >= 2 since name/reason are optional
+                if (cleanCols.length >= 2) { 
                     result.push({
                         id: cleanCols[1] || "Unknown",      // Column B - Player ID
                         name: cleanCols[2] || "Unknown",    // Column C - Player Name
@@ -457,14 +454,12 @@
         // 3. MODAL LOGIC
         // ============================================
 
-        // Open modal
         openModalBtn.onclick = function() {
             modal.style.display = "block";
             successMessage.style.display = "none";
             errorMessage.style.display = "none";
         }
 
-        // Close modal
         function closeModal() {
             modal.style.display = "none";
             addPlayerForm.reset();
@@ -475,14 +470,12 @@
         closeBtn.onclick = closeModal;
         cancelBtn.onclick = closeModal;
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target == modal) {
                 closeModal();
             }
         }
 
-        // Form submission
         addPlayerForm.onsubmit = async function(e) {
             e.preventDefault();
             
@@ -490,7 +483,6 @@
             const playerId = document.getElementById('playerId').value.trim();
             const playerReason = document.getElementById('playerReason').value.trim();
 
-            // CHANGED: Validation now only checks for Player ID
             if (!playerId) {
                 errorMessage.textContent = "❌ Player ID is required!";
                 errorMessage.style.display = "block";
@@ -498,7 +490,6 @@
                 return;
             }
 
-            // Check if API URL is configured
             if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE" || !APPS_SCRIPT_URL) {
                 errorMessage.textContent = "❌ Apps Script URL not configured!";
                 errorMessage.style.display = "block";
@@ -506,20 +497,22 @@
                 return;
             }
 
-            // Disable submit button
             submitBtn.disabled = true;
             submitBtn.textContent = "Adding...";
             errorMessage.style.display = "none";
             successMessage.style.display = "none";
 
             try {
-                // Send data (Name and Reason will be empty string if not filled)
+                // FIXED: Now using 'application/json' and matching your spreadsheet headers
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify({
-                        name: playerName,
-                        id: playerId,
-                        reason: playerReason
+                        "Player Name": playerName,
+                        "Player ID": playerId,
+                        "Reason": playerReason
                     })
                 });
 
@@ -529,8 +522,7 @@
                 try {
                     result = JSON.parse(responseText);
                 } catch (parseError) {
-                    console.error('Could not parse response:', parseError);
-                    // If we can't parse JSON, assume success (common with some redirection behavior)
+                    // console.error('Could not parse response:', parseError);
                     result = { status: 'success' };
                 }
                 
@@ -552,12 +544,15 @@
 
             } catch (error) {
                 console.error('Error adding player:', error);
-                errorMessage.textContent = "❌ Connection failed. Please try again.";
+                // Note: If you get a CORS error here in the console, it is because 
+                // Google Scripts often dislike the 'application/json' header.
+                // But since your webhook specifically requested JSON, we must send it this way.
+                errorMessage.textContent = "❌ Connection failed or CORS Blocked. Check Console.";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Add to Blacklist";
+                submitBtn.textContent = "Add to NoRecruit";
             }
         }
     </script>
