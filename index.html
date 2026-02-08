@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoD NoRecruit</title>
+    <title>No Recruit</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
@@ -160,7 +160,7 @@
 
         .modal-content {
             background-color: var(--card-bg);
-            /* MOVED HIGHER: 2% margin-top */
+            /* High position for visibility */
             margin: 2% auto;
             padding: 30px;
             border: 1px solid var(--accent-color);
@@ -295,12 +295,12 @@
         <div id="results-area"></div>
     </div>
 
-    <button class="add-btn" id="openModalBtn">+ Add Player to NoRecruit</button>
+    <button class="add-btn" id="openModalBtn">+ Add Player to the list</button>
 
     <div id="addPlayerModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div class="modal-header">Add Player</div>
+            <div class="modal-header">Add Player to the list</div>
             
             <form id="addPlayerForm">
                 <div class="form-group">
@@ -315,12 +315,12 @@
                 
                 <div class="form-group">
                     <label for="playerReason">Reason (Optional)</label>
-                    <textarea id="playerReason" placeholder="Why is this playerin no recruit?"></textarea>
+                    <textarea id="playerReason" placeholder="Why is this player being in NoRecruit?"></textarea>
                 </div>
 
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn btn-submit" id="submitBtn">Add to NoRecruit</button>
+                    <button type="submit" class="btn btn-submit" id="submitBtn">Add to the list</button>
                 </div>
             </form>
 
@@ -340,6 +340,7 @@
         
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMW9t3vfH3ganvTFRmX2WcUoaR7UAIc7oW13TmvyCt4DsOZ-pf34mIAE7BWKWRa2wsxTJ0CgyYQXz6/pub?gid=679693607&single=true&output=csv";
         
+        // Your Apps Script Webhook URL
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUe5q2XUyii6o4M-YxK2AiRvnFP0GmLByNWkbJmt_7qmqs2F6AxYKgn7t9JrcmGwKrLQ/exec?gid=679693607";
 
         // ============================================
@@ -503,17 +504,18 @@
             successMessage.style.display = "none";
 
             try {
-                // FIXED: Now using 'application/json' and matching your spreadsheet headers
+                // SOLUTION: Use URLSearchParams (Form Data) to avoid CORS issues
+                const formData = new URLSearchParams();
+                formData.append("Player Name", playerName);
+                formData.append("Player ID", playerId);
+                formData.append("Reason", playerReason);
+
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/x-www-form-urlencoded"
                     },
-                    body: JSON.stringify({
-                        "Player Name": playerName,
-                        "Player ID": playerId,
-                        "Reason": playerReason
-                    })
+                    body: formData.toString()
                 });
 
                 const responseText = await response.text();
@@ -544,15 +546,13 @@
 
             } catch (error) {
                 console.error('Error adding player:', error);
-                // Note: If you get a CORS error here in the console, it is because 
-                // Google Scripts often dislike the 'application/json' header.
-                // But since your webhook specifically requested JSON, we must send it this way.
-                errorMessage.textContent = "❌ Connection failed or CORS Blocked. Check Console.";
+                // If even this fails, the script is 100% strictly JSON-only and incompatible with web browsers.
+                errorMessage.textContent = "❌ Connection failed. The webhook might be blocking browser requests.";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Add to NoRecruit";
+                submitBtn.textContent = "Add to No Recruit";
             }
         }
     </script>
