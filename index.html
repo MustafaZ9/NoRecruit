@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Recruit</title>
+    <title>Alliance Hub - No Recruit & Guides</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
+        /* ============================================
+           SHARED & NO RECRUIT STYLES
+           ============================================ */
         :root {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
@@ -14,6 +17,10 @@
             --accent-color: #e53935;
             --reason-color: #ffd700;
             --border-color: #333;
+            
+            /* Guides Specific Variables */
+            --guide-accent: #3b82f6;
+            --text-muted: #94a3b8;
         }
 
         body {
@@ -28,7 +35,7 @@
             padding: 20px;
         }
 
-        h1 {
+        .nr-title {
             font-family: 'Orbitron', sans-serif;
             color: var(--accent-color);
             text-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
@@ -40,7 +47,7 @@
             white-space: nowrap; 
         }
         
-        h1:hover { transform: scale(1.05); }
+        .nr-title:hover { transform: scale(1.05); }
 
         .container {
             width: 100%;
@@ -145,7 +152,9 @@
         
         .empty-state { text-align: center; color: #666; margin-top: 30px; font-style: italic; }
 
-        /* Modal Styles */
+        /* ============================================
+           MODAL STYLES
+           ============================================ */
         .modal {
             display: none;
             position: fixed;
@@ -160,7 +169,6 @@
 
         .modal-content {
             background-color: var(--card-bg);
-            /* High position for visibility */
             margin: 2% auto;
             padding: 30px;
             border: 1px solid var(--accent-color);
@@ -191,103 +199,138 @@
 
         .close:hover { color: var(--accent-color); }
 
-        .form-group {
-            margin-bottom: 20px;
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-main); font-size: 0.9em; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px; background-color: var(--bg-color);
+            border: 1px solid var(--border-color); border-radius: 5px;
+            color: var(--text-main); font-family: 'Roboto Mono', monospace;
+            font-size: 1em; box-sizing: border-box;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-color); }
+        .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 0.9em; transition: 0.3s; }
+        .btn-submit { background-color: var(--accent-color); color: white; }
+        .btn-submit:hover { background-color: #c62828; }
+        .btn-cancel { background-color: #333; color: #aaa; }
+        .btn-cancel:hover { background-color: #444; color: white; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .success-message { background-color: rgba(76, 175, 80, 0.1); border: 1px solid #4caf50; color: #4caf50; padding: 15px; border-radius: 5px; margin-top: 15px; text-align: center; display: none; }
+        .error-message { background-color: rgba(229, 57, 53, 0.1); border: 1px solid var(--accent-color); color: var(--accent-color); padding: 15px; border-radius: 5px; margin-top: 15px; text-align: center; display: none; }
+
+        /* ============================================
+           PAGE SEPARATOR
+           ============================================ */
+        .page-divider {
+            width: 80%;
+            max-width: 1000px;
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 60px 0;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-main);
-            font-size: 0.9em;
-        }
-
-        .form-group input,
-        .form-group textarea {
+        /* ============================================
+           GUIDES SECTION STYLES
+           ============================================ */
+        .guides-section {
             width: 100%;
-            padding: 12px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .guides-header {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .guides-title {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
             color: var(--text-main);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1em;
+        }
+
+        #guidesSearchInput:focus { border-color: var(--guide-accent); }
+
+        .guides-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
             box-sizing: border-box;
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .modal-buttons {
+        .guide-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
             display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 25px;
+            flex-direction: column;
+            position: relative;
         }
 
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+        .guide-title {
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--guide-accent);
+            padding-right: 3rem;
+        }
+
+        .guide-content {
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            color: var(--text-muted);
+            flex-grow: 1;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .guide-content a { color: var(--guide-accent); text-decoration: none; }
+        .guide-content a:hover { text-decoration: underline; }
+
+        .copy-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
             cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9em;
-            transition: 0.3s;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
-        .btn-submit {
-            background-color: var(--accent-color);
+        .copy-btn:hover {
+            background-color: var(--guide-accent);
+            border-color: var(--guide-accent);
             color: white;
         }
 
-        .btn-submit:hover { background-color: #c62828; }
-
-        .btn-cancel {
-            background-color: #333;
-            color: #aaa;
-        }
-
-        .btn-cancel:hover { background-color: #444; color: white; }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .success-message {
-            background-color: rgba(76, 175, 80, 0.1);
-            border: 1px solid #4caf50;
-            color: #4caf50;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
+        .no-results {
             text-align: center;
-            display: none;
-        }
-
-        .error-message {
-            background-color: rgba(229, 57, 53, 0.1);
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            text-align: center;
-            display: none;
+            grid-column: 1 / -1;
+            color: var(--text-muted);
+            padding: 2rem;
         }
     </style>
 </head>
 <body>
 
-    <h1 onclick="location.reload()" title="Click to Reset">🚫 NO RECRUIT LIST</h1>
+    <h1 class="nr-title" onclick="location.reload()" title="Click to Reset">🚫 NO RECRUIT LIST</h1>
     <div id="loading-text" class="status-indicator">Connecting to database...</div>
 
     <div class="container">
@@ -324,35 +367,35 @@
                 </div>
             </form>
 
-            <div class="success-message" id="successMessage">
-                ✅ Player added successfully!
-            </div>
-            <div class="error-message" id="errorMessage">
-                ❌ Failed to add player. Please try again.
-            </div>
+            <div class="success-message" id="successMessage">✅ Player added successfully!</div>
+            <div class="error-message" id="errorMessage">❌ Failed to add player. Please try again.</div>
         </div>
     </div>
 
-    <script>
-        // ============================================
-        // 1. CONFIGURATION
-        // ============================================
-        
-        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMW9t3vfH3ganvTFRmX2WcUoaR7UAIc7oW13TmvyCt4DsOZ-pf34mIAE7BWKWRa2wsxTJ0CgyYQXz6/pub?gid=679693607&single=true&output=csv";
-        
-        // Your Apps Script Webhook URL
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUe5q2XUyii6o4M-YxK2AiRvnFP0GmLByNWkbJmt_7qmqs2F6AxYKgn7t9JrcmGwKrLQ/exec?gid=679693607";
+    <hr class="page-divider">
 
-        // ============================================
-        // 2. LOGIC
-        // ============================================
+    <div class="guides-section">
+        <div class="guides-header">
+            <h1 class="guides-title">Kingshot Guides</h1>
+            <input type="text" id="guidesSearchInput" placeholder="Search for guides (e.g., Vikings, Hero)...">
+        </div>
+
+        <div class="guides-container" id="guidesContainer">
+            </div>
+    </div>
+
+    <script>
+        /* --------------------------------------------------------------------------
+           NO RECRUIT SCRIPT LOGIC
+           -------------------------------------------------------------------------- */
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMW9t3vfH3ganvTFRmX2WcUoaR7UAIc7oW13TmvyCt4DsOZ-pf34mIAE7BWKWRa2wsxTJ0CgyYQXz6/pub?gid=679693607&single=true&output=csv";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUe5q2XUyii6o4M-YxK2AiRvnFP0GmLByNWkbJmt_7qmqs2F6AxYKgn7t9JrcmGwKrLQ/exec?gid=679693607";
 
         let blockedPlayers = [];
         const searchInput = document.getElementById('searchInput');
         const resultsArea = document.getElementById('results-area');
         const loadingText = document.getElementById('loading-text');
         
-        // Modal elements
         const modal = document.getElementById('addPlayerModal');
         const openModalBtn = document.getElementById('openModalBtn');
         const closeBtn = document.querySelector('.close');
@@ -362,7 +405,6 @@
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
 
-        // Fetch data when page loads
         function loadData() {
             fetch(SHEET_CSV_URL)
                 .then(response => {
@@ -382,14 +424,11 @@
                     loadingText.style.color = "red";
                 });
         }
-
         loadData();
 
-        // CSV Parser
         function parseCSV(text) {
             const lines = text.split('\n');
             const result = [];
-            
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
@@ -399,16 +438,15 @@
 
                 if (cleanCols.length >= 2) { 
                     result.push({
-                        id: cleanCols[1] || "Unknown",      // Column B - Player ID
-                        name: cleanCols[2] || "Unknown",    // Column C - Player Name
-                        reason: cleanCols[3] || ""          // Column D - Reason
+                        id: cleanCols[1] || "Unknown",
+                        name: cleanCols[2] || "Unknown",
+                        reason: cleanCols[3] || ""
                     });
                 }
             }
             return result;
         }
 
-        // Search Logic
         searchInput.addEventListener('input', function() {
             const query = this.value.trim().toLowerCase();
             resultsArea.innerHTML = '';
@@ -419,18 +457,14 @@
             }
 
             const matches = blockedPlayers.filter(player => 
-                player.id.includes(query) || 
-                player.name.toLowerCase().includes(query)
+                player.id.includes(query) || player.name.toLowerCase().includes(query)
             );
 
             if (matches.length > 0) {
                 matches.forEach(player => {
                     const card = document.createElement('div');
                     card.className = 'result-card';
-                    
-                    const reasonHtml = player.reason 
-                        ? `<div class="player-reason">Reason: ${player.reason}</div>` 
-                        : '';
+                    const reasonHtml = player.reason ? `<div class="player-reason">Reason: ${player.reason}</div>` : '';
 
                     card.innerHTML = `
                         <div class="player-info">
@@ -443,31 +477,21 @@
                     resultsArea.appendChild(card);
                 });
             } else {
-                resultsArea.innerHTML = `
-                    <div class="no-match">
-                        ✅ No match found in database.
-                    </div>
-                `;
+                resultsArea.innerHTML = `<div class="no-match">✅ No match found in database.</div>`;
             }
         });
-
-        // ============================================
-        // 3. MODAL LOGIC
-        // ============================================
 
         openModalBtn.onclick = function() {
             modal.style.display = "block";
             successMessage.style.display = "none";
             errorMessage.style.display = "none";
         }
-
         function closeModal() {
             modal.style.display = "none";
             addPlayerForm.reset();
             successMessage.style.display = "none";
             errorMessage.style.display = "none";
         }
-
         closeBtn.onclick = closeModal;
         cancelBtn.onclick = closeModal;
 
@@ -479,7 +503,6 @@
 
        addPlayerForm.onsubmit = async function(e) {
             e.preventDefault();
-            
             const playerName = document.getElementById('playerName').value.trim();
             const playerId = document.getElementById('playerId').value.trim();
             const playerReason = document.getElementById('playerReason').value.trim();
@@ -491,7 +514,6 @@
                 return;
             }
 
-            // UI Updates: Disable button to prevent double-clicks
             submitBtn.disabled = true;
             submitBtn.textContent = "Sending...";
             errorMessage.style.display = "none";
@@ -503,27 +525,18 @@
                 formData.append("Player ID", playerId);
                 formData.append("Reason", playerReason);
 
-                // -------------------------------------------------------
-                // THE FIX: mode: 'no-cors'
-                // -------------------------------------------------------
                 await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // <--- IMPORTANT: This bypasses the CORS error
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
+                    mode: 'no-cors',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: formData.toString()
                 });
 
-                // With 'no-cors', we get an "opaque" response. We cannot check result.status
-                // or read the text. We assume it was sent successfully.
-                
                 successMessage.innerHTML = "✅ Request sent! Updating database...";
                 successMessage.style.display = "block";
                 errorMessage.style.display = "none";
                 addPlayerForm.reset();
                 
-                // Wait 2 seconds for Google Sheets to update, then reload the list
                 setTimeout(() => {
                     loadData();
                     closeModal();
@@ -536,12 +549,314 @@
                 errorMessage.textContent = "❌ Network error. Check your internet connection.";
                 errorMessage.style.display = "block";
                 successMessage.style.display = "none";
-                
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Add to the list";
             }
         }
-    </script>
 
+        /* --------------------------------------------------------------------------
+           GAME GUIDES SCRIPT LOGIC
+           -------------------------------------------------------------------------- */
+        const guidesData = [
+            // --- WELCOME & RULES ---
+            {
+                title: "Welcome to all new AoD members!",
+                content: `Here are a few rules everyone is expected to follow: 
+
+1 - There is a Kingdom NAP (Non Agressive Pact) in place for the top 10 alliances and their affiliates. This includes no hitting their members, resource tiles, etc. 
+2 - Violating the NAP will result in a warning. Fail to comply, you will be kicked from the alliance. 
+3 - Other events will be coordinated and participation is encouraged to help everyone.
+4 - Bear Trap events are scheduled and direction will be sent to everyone reminding of the times.
+5 - Other events will be coordinated and participation is encouraged to help everyone.
+6 - If you are inactive for 5 days or more in a row, you run the risk of being kicked.
+7 - Learn, have fun, get to know our awesome members. Participate in discussion and be friendly.
+5. Full NAP expulsion, blacklisting, and ongoing state-wide targeting. Repeated issues may demand compensation like resources to cover minor damages. `
+            },
+            {
+                title: "Welcome to all new LoD members! ",
+                content: `Here are a few rules everyone is expected to follow:
+
+1 - There is a Kingdom NAP (Non Agressive Pact) in place for the top 10 alliances so no hitting their members, resource tiles, etc.
+2 - Sanctuaries and Fortresses are assigned in the Kingdom to the top alliances. We will announce our before each battle.
+3 - If you are caught violating the NAP you will be warned once then kicked from the alliance and zeroed. If your violation causes a war, you will not get the warning.
+And finally, if you need to be away for more than 5 days, please let us know so you do not get kicked.
+If you have any questions or are not sure about anything please ask. We're here to help you 😊`
+            },
+            {
+                title: "Non-Aggression Pact (NAP) Rules",
+                content: `1. No attacking/scouting NAP members, HQs, or banners
+2. No bullying, inappropriate behavior, or drama
+3. Non-NAP attacks are limited to max 3 hits
+4. Do not attack gathering tiles.
+5. No zeroing players.
+6. Outposts are fair game unless a private agreement exists`
+            },
+            {
+                title: "Punishments for breaking NAP",
+                content: `1. Private warnings to notify the offender of the rule break. Requiring immediate cessation and apology.
+2. Offenders face short-term benching, chat silence, or limited participation in NAP events. Their alliance may monitor them closely, with failure to comply leading to escalation. 
+3. Alliance kicks occur for persistent issues like bullying or gathering tile attacks. 
+4. Offender's NAP alliance  can coordinate attacks on the offender’s city. `
+            },
+            {
+                title: "All Out",
+                content: `1. TOP9: No city hits
+2. NAP Academies: No city hits
+3. NO resources tile hits, unless consent with other player
+4. Non-NAP: Max 2 hits per city
+5. Non- NAP Rallies: Max 1 per city
+6. Leaving to hit NAP = permanent ban from all NAP9
+7. Ceasefire during sanct. battle `
+            },
+            {
+                title: "Please do not attack the following Alliances and Academies cities or resource tiles:",
+                content: `HNR - hnr, MH8
+WTF - NBD, wtf
+OCC - ONE
+PHX - pHx
+LoD - AoD
+HMB - hmb
+SOC 
+Aas`
+            },
+
+            // --- VIKINGS VENGEANCE ---
+            {
+                title: "Vikings Vengeance",
+                content: `1. Empty city, reinforce others
+2. Keep 3 best heroes in guard station
+3. Defend HQ - wave 10 & 20
+4. DON'T heal or repair mid-event 
+5. Reinforcement lead heroes - Yeonwoo, Amane, Amadeus or Chenko. DON’T use heroes from guard station
+6. 100k-200k reinforcements in city
+7. Clear AC
+8. If you can fill all your marches only leave archers in your city`
+            },
+            {
+                title: "Vikings Info & Videos",
+                content: `Vikings guide
+https://tinyurl.com/2nvnhbee
+
+Vikings video
+https://m.youtube.com/watch?v=8ItL0xowxz0`
+            },
+
+            // --- BEAR TRAP ---
+            {
+                title: "",
+                content: `🐻 Rally leaders: 
+- Teleport close to trap to reduce march time
+- Use 3 best heroes & activate buffs
+- Check correct lead heroes are used by those who are joining
+🐻 Rally joiner:
+- Only lead hero's (1st slot) skill counts
+- Fill 3 slots to maximize troop capacity
+- Lead hero: Chenko, Yeonwoo, Amadeus, Amane
+- Troop Ratio: 10:10:80 (Prioritize Archers)
+- If you don’t have the correct heroes, send troops only without heroes
+- Wrong hero = You will be returned as it costs everyone including you points `
+            },
+            {
+                title: "Bear Trap Info & Videos",
+                content: `Bear guide 
+https://tinyurl.com/ybyxtz9w
+
+Bear video
+https://youtu.be/9minnJeD2R0?si=StHTcjyLQz5n-DFX`
+            },
+
+            // --- ETERNITY'S REACH ---
+            {
+                title: "",
+                content: `Eternity’s Reach guide
+https://tinyurl.com/428jkttp
+
+Eternity’s Reach video
+https://m.youtube.com/watch?v=rNt60Z_gEfk`
+            },
+            {
+                title: "Eternity’s Reach",
+                content: `1. Heal troops and recall all marches before entering
+2. Only attack cesares. Focus on level 2 at the start to get the 3rd skill faster. Only mine veins for the bonus 
+3. Enter a vein, get the bonus, then recall immediately (every 60s). Look at the timer when you get the 5k bonus to keep track.
+4. Rush Fractured Veins (mountains) when they appear
+5. Keep marches moving, don’t idle. 
+6. Teleport to a different area if there’s competition. 
+7. Gather loot when you can`
+            },
+            {
+                title: "Eternity’s Reach Skill order:",
+                content: `Lv1 – RIGHT: Copper per Guard Kill
+Lv2 – RIGHT: March Speed
+Lv3 – LEFT: +5000 Copper on Vein Entry
+Lv4 – LEFT: Mining Efficiency
+Lv5 – RIGHT: Gather Speed Boost `
+            },
+
+            // --- OTHER EVENTS ---
+            {
+                title: "Cesares Fury: 2/28 - 3/2",
+                content: `1. Try to do the highest level you can. It helps unlock better rewards.
+2. Always use your 'helps' preferably on levels multiple of 10 (10-20-30-40-50) 
+3. You win extra rewards for asking the helps.
+4. Starting a rally for someone else asking for help also gives extra rewards, joining too.
+5. Refresh your auto join to include "Cesars"`
+            },
+            {
+                title: "Troop ratio for Mystic Trial:",
+                content: `- 50:10:40 Colosseum
+- 50:15:35 Forest of Life 
+- 60:20:20 Crystal Cave 
+- 50:20:30 Knowledge Nexus 
+- 60:15:25 Molten Fort 
+- 50:15:35 Radiant Spire
+
+Mystic trial guide
+
+https://tinyurl.com/5cu492aw`
+            },
+            {
+                title: "Alliance Championship",
+                content: `- Register in the MIDDLE lane we will move lanes around after the matchmaking phase.
+- Register with your 3 strongest heroes. 
+- Use 50/20/30 troop ratio with your strongest ranking troops.
+- Refresh your troops prior to the matchmaking time. We will send out a reminder a few hours in advance.
+- Before Registering, activate buffs (pet skills and bonus buffs) to increase lethality, attack or defense to increase your power for this event.
+5. Double Time – 20% build speed. Activate before starting long upgrades. 
+Best for Town Center, Embassy, Academy, or other major buildings
+Stack with speedups for maximum value. 
+4 - Must show activity and progress. If you are inactive for more than 5 days you are at risk of being kicked. Please notify R4's or R5 if you need to be away for more than 5 days and when you will return. 
+5 - Learn, have fun, respect others in game play and conversation.
+6 - Must be progressing toward 20 million power.`
+            },
+            {
+                title: "KvK preparations phase table :",
+                content: `d1|d2|d3|d4|d5|        
+✅|⛔|✅|✅|⛔| Charms
+✅|🆗|⛔|⛔|🆗| Truegold
+✅|🆗|⛔|⛔|🆗| Construction speed up
+⛔|✅|⛔|⛔|🆗| Research speed up
+⛔|⛔|⛔|✅|🆗| Training speed up
+✅|⛔|✅|⛔|✅| Intel missions
+⛔|✅|🆗|⛔|⛔| Roulette
+⛔|✅|✅|⛔|⛔| Shards
+⛔|✅|⛔|✅|✅| gather rss ⛔|⛔|✅|⛔|✅| Lvl up pets ⛔|⛔|✅|⛔|✅| Refinement pets ⛔|⛔|⛔|✅|✅| Forgehammer ⛔|⛔|⛔|✅|✅| Widgets ⛔|⛔|⛔|✅|✅| Mithril   ⛔|⛔|⛔|⛔|✅| Governor gear`
+            },  
+            {
+                title: "Alliance brawl:",
+                content: `d1|d2|d3|d4|d5|d6
+                 ✅|✅|✅|✅|✅|✅| Trucks 
+                 🚫|✅|🚫|🚫|🚫|✅| Shards  
+                 ✅|✅|🚫|🚫|✅|✅| Truegold  
+                 ✅|🆗|🚫|🚫|🆗|✅| Speedups  
+                 🚫|🚫|🚫|✅|🚫|🚫| Troop Training 
+                 🚫|🚫|✅|🚫|🚫|✅| Pet XP/Marks 
+                 🚫|🚫|🚫|🚫|🚫|✅| Gov. Gear 
+                 🚫|🚫|✅|✅|🚫|✅| Gov. Charm. 
+                 🚫|🚫|🚫|✅|🚫|✅|  widgets 
+                 ✅|🚫|✅|🚫|🚫|🚫| Gather  
+                 🚫|✅|🚫|✅|🚫|🚫| Intel Missons 
+                 🚫|🚫|🚫|🚫|✅|✅| Beast/Terrors`
+            },  
+            {
+                title: "Batch Healing:",
+                content: `Try to heal only part of troops at once. 
+                Find the number of auto helps on, 
+                select heal, and click help for an instant heal of those troops.
+                Example: 5 auto helps online, is approximately 20min of help. 
+                Find how many soldiers you can heal under 20m. Click heal, then help, 
+                and those troops will be instantly healed. 
+                Just keep tapping away until all troops are healed. no need to use gems or speedups.`
+            },
+
+            // --- GENERAL GAMEPLAY / TACTICS ---
+            {
+                title: "Defence Tactics",
+                content: `1. Use shield - announce in alliance chat when placing shield and how long it lasts
+2. Reinforce other alliance cities that are using shields
+3. Garrison troops at banners that are not attached to other alliances
+4. Troops at resource gatherings will be vulnerable!! 
+5. Make sure the amount of troops in your city is less than your infirmary cap! 
+6. Keep hero’s in your city!`
+            },
+            {
+                title: "Hero Gear",
+                content: `1. Focus on ONLY 3 heroes: Infantry, Archer, Cavalry
+2.  Infantry = Health | Archer & Cavalry = Lethality
+3. Upgrade main gear only:Infantry → Chest & GlovesArcher → Helmet & BootsCavalry → Helmet & Boots
+4. Upgrade Purple & Gold gear ONLY
+5. Use Mastery Hammers only on top 3 heroes, main gear first
+6. Arena coins = Gold (Mythical) gear ONLY 7. Bear Trap: Archer helmet & boots matter for rally leaders
+8. Joiners’ gear does NOT affect Bear Trap damage `
+            },
+            {
+                title: "Decrees",
+                content: `1. Productive Day – 100% resource output for 24h. Use before long offline periods for a massive resource gain
+2. Rush Job – Instant resources (5 days worth). Activate immediately after Productive Day for best effect
+3. Urgent Mobilization – Boosts residents for faster gathering or city activities. Festivities – Maintains morale and comfort
+4. Rotate after heavy decree usage, when resident mood notifications appear, or during long upgrade/production phases`
+            }
+        ];
+
+        const guidesContainer = document.getElementById('guidesContainer');
+        const guidesSearchInput = document.getElementById('guidesSearchInput');
+
+        function renderCards(filterText = '') {
+            guidesContainer.innerHTML = '';
+            
+            const filteredGuides = guidesData.filter(guide => {
+                const searchLower = filterText.toLowerCase();
+                return guide.title.toLowerCase().includes(searchLower) || 
+                       guide.content.toLowerCase().includes(searchLower);
+            });
+
+            if (filteredGuides.length === 0) {
+                guidesContainer.innerHTML = '<div class="no-results">No guides found matching your search.</div>';
+                return;
+            }
+
+            filteredGuides.forEach((guide, index) => {
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                const displayContent = guide.content.replace(urlRegex, function(url) {
+                    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+                });
+
+                const card = document.createElement('div');
+                card.className = 'guide-card';
+                card.innerHTML = `
+                    <h2 class="guide-title">${guide.title}</h2>
+                    <button class="copy-btn" onclick="copyText(${index}, this)">Copy</button>
+                    <div class="guide-content">${displayContent}</div>
+                `;
+                guidesContainer.appendChild(card);
+            });
+        }
+
+        function copyText(index, buttonElement) {
+            const textToCopy = guidesData[index].title + "\n\n" + guidesData[index].content;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = buttonElement.innerText;
+                buttonElement.innerText = 'Copied!';
+                buttonElement.style.backgroundColor = '#10b981';
+                buttonElement.style.borderColor = '#10b981';
+                buttonElement.style.color = 'white';
+                
+                setTimeout(() => {
+                    buttonElement.innerText = originalText;
+                    buttonElement.style.backgroundColor = '';
+                    buttonElement.style.borderColor = '';
+                    buttonElement.style.color = '';
+                }, 2000);
+            });
+        }
+
+        guidesSearchInput.addEventListener('input', (e) => {
+            renderCards(e.target.value);
+        });
+
+        // Initial render for guides
+        renderCards();
+    </script>
 </body>
 </html>
