@@ -1,0 +1,157 @@
+/* ============================================
+   LOD MEMBERS SECTION
+   ============================================ */
+#lod-page .search-input:focus {
+    border-color: var(--accent-lod);
+    box-shadow: 0 0 0 3px var(--accent-lod-glow);
+}
+
+#lod-page .search-input:focus ~ .search-icon {
+    color: var(--accent-lod);
+}
+
+.lod-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.lod-results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Member Card */
+.lod-card {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+    animation: slideUp 0.25s ease-out backwards;
+    transition: all var(--transition-base);
+}
+
+.lod-card:hover {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: var(--shadow-glow-lod);
+}
+
+.lod-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-width: 0;
+}
+
+.lod-player-name {
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: #6ee7b7;
+    word-break: break-word;
+}
+
+.lod-player-id {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+}
+
+.lod-player-reason {
+    font-size: var(--text-sm);
+    color: var(--accent-lod);
+    margin-top: var(--space-xs);
+    font-style: italic;
+    border-left: 2px solid var(--accent-lod);
+    padding-left: var(--space-sm);
+    line-height: 1.5;
+}
+
+.lod-badge {
+    flex-shrink: 0;
+    background: var(--accent-lod);
+    color: white;
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* Not Found */
+.lod-clean {
+    text-align: center;
+    padding: var(--space-xl);
+    border: 1px dashed var(--text-muted);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.02);
+    margin-top: var(--space-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Add Button */
+.lod-add-btn {
+    display: block;
+    margin: var(--space-2xl) auto 0;
+    background: var(--accent-lod);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all var(--transition-base);
+}
+
+.lod-add-btn:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-lod);
+}
+
+/* Modal accent override */
+#lodModal .modal-title {
+    color: var(--accent-lod);
+}
+
+#lodModal .form-input:focus,
+#lodModal .form-textarea:focus {
+    border-color: var(--accent-lod);
+    box-shadow: 0 0 0 3px var(--accent-lod-glow);
+}
+
+#lodModal .btn-primary {
+    background: var(--accent-lod);
+}
+
+#lodModal .btn-primary:hover:not(:disabled) {
+    background: #059669;
+    box-shadow: var(--shadow-glow-lod);
+}
+
+@media (max-width: 480px) {
+    .lod-card {
+        flex-direction: column;
+    }
+
+    .lod-badge {
+        align-self: flex-start;
+    }
+}

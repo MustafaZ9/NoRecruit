@@ -1,0 +1,262 @@
+/* ============================================
+   ARCHIVE / INTEL SECTION
+   ============================================ */
+
+.archive-last-update {
+    font-size: var(--text-xs);
+    color: var(--accent-archive);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-top: var(--space-xs);
+}
+
+/* Alliance Cards Grid */
+.alliance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.alliance-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) var(--space-lg);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.alliance-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(6, 182, 212, 0.3);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow-cyan);
+}
+
+.alliance-tag {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--accent-archive);
+    letter-spacing: 3px;
+    margin-bottom: var(--space-sm);
+}
+
+.alliance-member-count {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+.alliance-former-count {
+    font-size: var(--text-xs);
+    color: var(--rank-former);
+    margin-top: var(--space-xs);
+    font-weight: 600;
+}
+
+/* Navigation Controls */
+.archive-nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.archive-nav.visible {
+    display: flex;
+}
+
+.archive-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: transparent;
+    border: 1px solid var(--accent-archive);
+    color: var(--accent-archive);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.archive-back-btn:hover {
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.archive-view-title {
+    color: var(--accent-archive);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: 1px;
+}
+
+/* Player Table */
+.archive-table-wrap {
+    display: none;
+    width: 100%;
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+    margin-top: var(--space-lg);
+}
+
+.archive-table-wrap.visible {
+    display: block;
+}
+
+.archive-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card-solid);
+}
+
+.archive-table th,
+.archive-table td {
+    padding: 14px var(--space-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: var(--text-sm);
+}
+
+.archive-table th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(6, 6, 11, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    letter-spacing: 1px;
+}
+
+.archive-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.archive-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.archive-table tbody tr.is-former {
+    opacity: 0.45;
+}
+
+.archive-table tbody tr.is-former td {
+    color: var(--rank-former);
+}
+
+/* Rank Badge */
+.rank-badge {
+    display: inline-block;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.rank-R5 {
+    color: var(--rank-r5);
+    border: 1px solid var(--rank-r5);
+    background: rgba(251, 191, 36, 0.1);
+    text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.rank-R4 {
+    color: var(--rank-r4);
+    border: 1px solid var(--rank-r4);
+    background: rgba(163, 163, 163, 0.08);
+}
+
+.rank-R3 { color: var(--rank-r3); }
+.rank-R2 { color: var(--rank-r2); }
+.rank-R1 { color: var(--rank-r1); }
+
+/* Former badge */
+.former-tag {
+    font-size: var(--text-xs);
+    color: var(--rank-former);
+    font-weight: 600;
+    margin-left: var(--space-sm);
+}
+
+/* Clickable ID */
+.clickable-id {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    transition: color var(--transition-fast);
+}
+
+.clickable-id:hover {
+    color: var(--accent-archive);
+}
+
+/* Archive search focus */
+#archive-page .search-input:focus {
+    border-color: var(--accent-archive);
+    box-shadow: 0 0 0 3px var(--accent-archive-glow);
+}
+
+#archive-page .search-input:focus ~ .search-icon {
+    color: var(--accent-archive);
+}
+
+/* No results */
+.archive-no-results {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--text-muted);
+    display: none;
+}
+
+.archive-no-results.visible {
+    display: block;
+}
+
+/* Former member toggle */
+.toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.toggle-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .alliance-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .alliance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .archive-table th,
+    .archive-table td {
+        padding: 10px var(--space-sm);
+    }
+}

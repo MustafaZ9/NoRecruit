@@ -1,0 +1,186 @@
+/* ============================================
+   GUIDES SECTION
+   ============================================ */
+
+/* Category Filter Chips */
+.guide-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+}
+
+.filter-chip {
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-default);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.filter-chip:hover {
+    border-color: var(--accent-guides);
+    color: var(--accent-guides);
+    background: var(--info-soft);
+}
+
+.filter-chip.active {
+    background: var(--accent-guides);
+    color: white;
+    border-color: var(--accent-guides);
+}
+
+/* Guide Cards Grid */
+.guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+/* Guide Card */
+.guide-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-base);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.guide-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(59, 130, 246, 0.2);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glow-blue);
+}
+
+.guide-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.guide-category-tag {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--accent-guides);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--space-xs);
+}
+
+.guide-card-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    flex: 1;
+}
+
+.guide-copy-btn {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.guide-copy-btn:hover {
+    background: var(--accent-guides);
+    border-color: var(--accent-guides);
+    color: white;
+    transform: scale(1.05);
+}
+
+.guide-copy-btn.copied {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+.guide-card-content {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.guide-card-content.collapsed {
+    max-height: 120px;
+}
+
+.guide-card-content.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, var(--bg-card-solid));
+    pointer-events: none;
+}
+
+.guide-card-content a {
+    color: var(--accent-guides);
+    text-decoration: none;
+}
+
+.guide-card-content a:hover {
+    text-decoration: underline;
+}
+
+.guide-expand-btn {
+    margin-top: var(--space-sm);
+    background: none;
+    border: none;
+    color: var(--accent-guides);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    padding: var(--space-xs) 0;
+    transition: opacity var(--transition-fast);
+}
+
+.guide-expand-btn:hover {
+    opacity: 0.8;
+}
+
+/* Search focus accent */
+#guides-page .search-input:focus {
+    border-color: var(--accent-guides);
+    box-shadow: 0 0 0 3px var(--accent-guides-glow);
+}
+
+#guides-page .search-input:focus ~ .search-icon {
+    color: var(--accent-guides);
+}
+
+@media (max-width: 480px) {
+    .guides-grid {
+        grid-template-columns: 1fr;
+    }
+}
