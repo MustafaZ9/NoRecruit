@@ -68,8 +68,8 @@
             if (cols.length >= 2) {
                 result.push({
                     id: cols[1] || "Unknown",
-                    name: cols[2] || "Unknown",
-                    reason: cols[3] || ""
+                    name: cols[0] || "Unknown",
+                    reason: ""
                 });
             }
         }
@@ -141,7 +141,6 @@
         e.preventDefault();
         const name = document.getElementById('lodPlayerName').value.trim();
         const id = document.getElementById('lodPlayerId').value.trim();
-        const reason = document.getElementById('lodPlayerReason').value.trim();
 
         if (!id) {
             errorAlert.textContent = '❌ Player ID is required!';
@@ -157,9 +156,8 @@
 
         try {
             const formData = new URLSearchParams();
-            formData.append('Player Name', name);
-            formData.append('Player ID', id);
-            formData.append('Reason', reason);
+            formData.append('Name', name);
+            formData.append('ID', id);
 
             await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
