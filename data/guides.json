@@ -1,1 +1,134 @@
-
+[
+  {
+    "id": "welcome-aod",
+    "category": "Rules",
+    "title": "Welcome to all new AoD members!",
+    "content": "Here are a few rules everyone is expected to follow: \n\n1 - There is a Kingdom NAP (Non Agressive Pact) in place for the top 10 alliances and their affiliates. This includes no hitting their members, resource tiles, etc. \n2 - Violating the NAP will result in a warning. Fail to comply, you will be kicked from the alliance. \n3 - Other events will be coordinated and participation is encouraged to help everyone.\n4 - Bear Trap events are scheduled and direction will be sent to everyone reminding of the times.\n5 - Other events will be coordinated and participation is encouraged to help everyone.\n6 - If you are inactive for 5 days or more in a row, you run the risk of being kicked.\n7 - Learn, have fun, get to know our awesome members. Participate in discussion and be friendly.\n5. Full NAP expulsion, blacklisting, and ongoing state-wide targeting. Repeated issues may demand compensation like resources to cover minor damages."
+  },
+  {
+    "id": "welcome-lod",
+    "category": "Rules",
+    "title": "Welcome to all new LoD members!",
+    "content": "Here are a few rules everyone is expected to follow:\n\n1 - There is a Kingdom NAP (Non Agressive Pact) in place for the top 10 alliances so no hitting their members, resource tiles, etc.\n2 - Sanctuaries and Fortresses are assigned in the Kingdom to the top alliances. We will announce our before each battle.\n3 - If you are caught violating the NAP you will be warned once then kicked from the alliance and zeroed. If your violation causes a war, you will not get the warning.\nAnd finally, if you need to be away for more than 5 days, please let us know so you do not get kicked.\nIf you have any questions or are not sure about anything please ask. We're here to help you 😊"
+  },
+  {
+    "id": "nap-rules",
+    "category": "Rules",
+    "title": "Non-Aggression Pact (NAP) Rules",
+    "content": "1. No attacking/scouting NAP members, HQs, or banners\n2. No bullying, inappropriate behavior, or drama\n3. Non-NAP attacks are limited to max 3 hits\n4. Do not attack gathering tiles.\n5. No zeroing players.\n6. Outposts are fair game unless a private agreement exists"
+  },
+  {
+    "id": "nap-punishments",
+    "category": "Rules",
+    "title": "Punishments for breaking NAP",
+    "content": "1. Private warnings to notify the offender of the rule break. Requiring immediate cessation and apology.\n2. Offenders face short-term benching, chat silence, or limited participation in NAP events. Their alliance may monitor them closely, with failure to comply leading to escalation. \n3. Alliance kicks occur for persistent issues like bullying or gathering tile attacks. \n4. Offender's NAP alliance  can coordinate attacks on the offender's city."
+  },
+  {
+    "id": "all-out",
+    "category": "Rules",
+    "title": "All Out",
+    "content": "1. TOP9: No city hits\n2. NAP Academies: No city hits\n3. NO resources tile hits, unless consent with other player\n4. Non-NAP: Max 2 hits per city\n5. Non- NAP Rallies: Max 1 per city\n6. Leaving to hit NAP = permanent ban from all NAP9\n7. Ceasefire during sanct. battle"
+  },
+  {
+    "id": "nap-alliances",
+    "category": "Rules",
+    "title": "Please do not attack the following Alliances and Academies cities or resource tiles:",
+    "content": "HNR - hnr, MH8\nWTF - NBD, wtf\nOCC - ONE\nPHX - pHx\nLoD - AoD\nHMB - hmb\nSOC \nAas"
+  },
+  {
+    "id": "vikings-vengeance",
+    "category": "Events",
+    "title": "Vikings Vengeance",
+    "content": "1. Empty city, reinforce others\n2. Keep 3 best heroes in guard station\n3. Defend HQ - wave 10 & 20\n4. DON'T heal or repair mid-event \n5. Reinforcement lead heroes - Yeonwoo, Amane, Amadeus or Chenko. DON'T use heroes from guard station\n6. 100k-200k reinforcements in city\n7. Clear AC\n8. If you can fill all your marches only leave archers in your city"
+  },
+  {
+    "id": "vikings-info",
+    "category": "Events",
+    "title": "Vikings Info & Videos",
+    "content": "Vikings guide\nhttps://tinyurl.com/2nvnhbee\n\nVikings video\nhttps://m.youtube.com/watch?v=8ItL0xowxz0"
+  },
+  {
+    "id": "bear-trap",
+    "category": "Events",
+    "title": "Bear Trap Guide",
+    "content": "🐻 Rally leaders: \n- Teleport close to trap to reduce march time\n- Use 3 best heroes & activate buffs\n- Check correct lead heroes are used by those who are joining\n🐻 Rally joiner:\n- Only lead hero's (1st slot) skill counts\n- Fill 3 slots to maximize troop capacity\n- Lead hero: Chenko, Yeonwoo, Amadeus, Amane\n- Troop Ratio: 10:10:80 (Prioritize Archers)\n- If you don't have the correct heroes, send troops only without heroes\n- Wrong hero = You will be returned as it costs everyone including you points"
+  },
+  {
+    "id": "bear-trap-info",
+    "category": "Events",
+    "title": "Bear Trap Info & Videos",
+    "content": "Bear guide \nhttps://tinyurl.com/ybyxtz9w\n\nBear video\nhttps://youtu.be/9minnJeD2R0?si=StHTcjyLQz5n-DFX"
+  },
+  {
+    "id": "eternitys-reach-info",
+    "category": "Events",
+    "title": "Eternity's Reach Info & Videos",
+    "content": "Eternity's Reach guide\nhttps://tinyurl.com/428jkttp\n\nEternity's Reach video\nhttps://m.youtube.com/watch?v=rNt60Z_gEfk"
+  },
+  {
+    "id": "eternitys-reach",
+    "category": "Events",
+    "title": "Eternity's Reach",
+    "content": "1. Heal troops and recall all marches before entering\n2. Only attack cesares. Focus on level 2 at the start to get the 3rd skill faster. Only mine veins for the bonus \n3. Enter a vein, get the bonus, then recall immediately (every 60s). Look at the timer when you get the 5k bonus to keep track.\n4. Rush Fractured Veins (mountains) when they appear\n5. Keep marches moving, don't idle. \n6. Teleport to a different area if there's competition. \n7. Gather loot when you can"
+  },
+  {
+    "id": "eternitys-reach-skills",
+    "category": "Events",
+    "title": "Eternity's Reach Skill order:",
+    "content": "Lv1 – RIGHT: Copper per Guard Kill\nLv2 – RIGHT: March Speed\nLv3 – LEFT: +5000 Copper on Vein Entry\nLv4 – LEFT: Mining Efficiency\nLv5 – RIGHT: Gather Speed Boost"
+  },
+  {
+    "id": "cesares-fury",
+    "category": "Events",
+    "title": "Cesares Fury",
+    "content": "1. Try to do the highest level you can. It helps unlock better rewards.\n2. Always use your 'helps' preferably on levels multiple of 10 (10-20-30-40-50) \n3. You win extra rewards for asking the helps.\n4. Starting a rally for someone else asking for help also gives extra rewards, joining too.\n5. Refresh your auto join to include \"Cesars\""
+  },
+  {
+    "id": "mystic-trial",
+    "category": "Events",
+    "title": "Troop ratio for Mystic Trial:",
+    "content": "- 50:10:40 Colosseum\n- 50:15:35 Forest of Life \n- 60:20:20 Crystal Cave \n- 50:20:30 Knowledge Nexus \n- 60:15:25 Molten Fort \n- 50:15:35 Radiant Spire\n\nMystic trial guide\n\nhttps://tinyurl.com/5cu492aw"
+  },
+  {
+    "id": "alliance-championship",
+    "category": "Events",
+    "title": "Alliance Championship",
+    "content": "- Register in the MIDDLE lane we will move lanes around after the matchmaking phase.\n- Register with your 3 strongest heroes. \n- Use 50/20/30 troop ratio with your strongest ranking troops.\n- Refresh your troops prior to the matchmaking time. We will send out a reminder a few hours in advance.\n- Before Registering, activate buffs (pet skills and bonus buffs) to increase lethality, attack or defense to increase your power for this event.\n5. Double Time – 20% build speed. Activate before starting long upgrades. \nBest for Town Center, Embassy, Academy, or other major buildings\nStack with speedups for maximum value. \n4 - Must show activity and progress. If you are inactive for more than 5 days you are at risk of being kicked. Please notify R4's or R5 if you need to be away for more than 5 days and when you will return. \n5 - Learn, have fun, respect others in game play and conversation.\n6 - Must be progressing toward 20 million power."
+  },
+  {
+    "id": "kvk-prep",
+    "category": "Events",
+    "title": "KvK preparations phase table:",
+    "content": "d1|d2|d3|d4|d5|        \n✅|⛔|✅|✅|⛔| Charms\n✅|🆗|⛔|⛔|🆗| Truegold\n✅|🆗|⛔|⛔|🆗| Construction speed up\n⛔|✅|⛔|⛔|🆗| Research speed up\n⛔|⛔|⛔|✅|🆗| Training speed up\n✅|⛔|✅|⛔|✅| Intel missions\n⛔|✅|🆗|⛔|⛔| Roulette\n⛔|✅|✅|⛔|⛔| Shards\n⛔|✅|⛔|✅|✅| gather rss ⛔|⛔|✅|⛔|✅| Lvl up pets ⛔|⛔|✅|⛔|✅| Refinement pets ⛔|⛔|⛔|✅|✅| Forgehammer ⛔|⛔|⛔|✅|✅| Widgets ⛔|⛔|⛔|✅|✅| Mithril   ⛔|⛔|⛔|⛔|✅| Governor gear"
+  },
+  {
+    "id": "alliance-brawl",
+    "category": "Events",
+    "title": "Alliance brawl:",
+    "content": "d1|d2|d3|d4|d5|d6\n ✅|✅|✅|✅|✅|✅| Trucks \n 🚫|✅|🚫|🚫|🚫|✅| Shards  \n ✅|✅|🚫|🚫|✅|✅| Truegold  \n ✅|🆗|🚫|🚫|🆗|✅| Speedups  \n 🚫|🚫|🚫|✅|🚫|🚫| Troop Training \n 🚫|🚫|✅|🚫|🚫|✅| Pet XP/Marks \n 🚫|🚫|🚫|🚫|🚫|✅| Gov. Gear \n 🚫|🚫|✅|✅|🚫|✅| Gov. Charm. \n 🚫|🚫|🚫|✅|🚫|✅|  widgets \n ✅|🚫|✅|🚫|🚫|🚫| Gather  \n 🚫|✅|🚫|✅|🚫|🚫| Intel Missons \n 🚫|🚫|🚫|🚫|✅|✅| Beast/Terrors"
+  },
+  {
+    "id": "batch-healing",
+    "category": "Gameplay",
+    "title": "Batch Healing:",
+    "content": "Try to heal only part of troops at once. \nFind the number of auto helps on, \nselect heal, and click help for an instant heal of those troops.\nExample: 5 auto helps online, is approximately 20min of help. \nFind how many soldiers you can heal under 20m. Click heal, then help, \nand those troops will be instantly healed. \nJust keep tapping away until all troops are healed. no need to use gems or speedups."
+  },
+  {
+    "id": "defence-tactics",
+    "category": "Gameplay",
+    "title": "Defence Tactics",
+    "content": "1. Use shield - announce in alliance chat when placing shield and how long it lasts\n2. Reinforce other alliance cities that are using shields\n3. Garrison troops at banners that are not attached to other alliances\n4. Troops at resource gatherings will be vulnerable!! \n5. Make sure the amount of troops in your city is less than your infirmary cap! \n6. Keep hero's in your city!"
+  },
+  {
+    "id": "hero-gear",
+    "category": "Gameplay",
+    "title": "Hero Gear",
+    "content": "1. Focus on ONLY 3 heroes: Infantry, Archer, Cavalry\n2.  Infantry = Health | Archer & Cavalry = Lethality\n3. Upgrade main gear only:Infantry → Chest & GlovesArcher → Helmet & BootsCavalry → Helmet & Boots\n4. Upgrade Purple & Gold gear ONLY\n5. Use Mastery Hammers only on top 3 heroes, main gear first\n6. Arena coins = Gold (Mythical) gear ONLY 7. Bear Trap: Archer helmet & boots matter for rally leaders\n8. Joiners' gear does NOT affect Bear Trap damage"
+  },
+  {
+    "id": "decrees",
+    "category": "Gameplay",
+    "title": "Decrees",
+    "content": "1. Productive Day – 100% resource output for 24h. Use before long offline periods for a massive resource gain\n2. Rush Job – Instant resources (5 days worth). Activate immediately after Productive Day for best effect\n3. Urgent Mobilization – Boosts residents for faster gathering or city activities. Festivities – Maintains morale and comfort\n4. Rotate after heavy decree usage, when resident mood notifications appear, or during long upgrade/production phases"
+  }
+]
